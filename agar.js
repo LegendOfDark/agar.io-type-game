@@ -25,6 +25,20 @@ const randomColor = () => {
   return color;
 };
 
+// capture key being pressed
+let keysPressed = {};
+
+document.addEventListener('keydown', (e) => 
+{
+    keysPressed[e.key] = true;
+    console.log(keysPressed);
+        character.update();
+});
+
+document.addEventListener('keyup', (e) => {
+    keysPressed[e.key] = false;
+ });
+
 // create a circle object
 function Circle(x, y, rad, color) {
 
@@ -32,6 +46,8 @@ function Circle(x, y, rad, color) {
   this.y = y;
   this.rad = rad;
   this.color = color;
+  this.dx = 0;
+  this.dy = 0;
 
   // drawing method
   this.draw = () => {
@@ -43,9 +59,42 @@ function Circle(x, y, rad, color) {
     c.stroke();
   }
 
-//   this.update = () => {
-    // this.draw();
-//   }
+    this.update = () => {
+
+        if (keysPressed['ArrowRight'])
+        {
+            this.dx = 5;
+            this.dy = 0;
+        }
+        if (keysPressed['ArrowLeft'])
+        {
+            this.dx = -5;
+            this.dy = 0;
+        }
+        if (keysPressed['ArrowUp'])
+        {
+            this.dy = -5;
+            this.dx = 0;
+        }
+        if (keysPressed['ArrowDown'])
+        {
+            this.dy = 5;
+            this.dx = 0;
+        }
+    
+        if (this.x + this.rad > canvas.width || this.x - this.rad < 0) {
+            this.dx = -this.dx;
+            keysPressed = _.mapValues(keysPressed, () => false);
+        }
+        if (this.y + this.rad > canvas.height || this.y - this.rad < 0) {
+            this.dy = -this.dy;
+            keysPressed = _.mapValues(keysPressed, () => false);
+        }
+
+        this.x += this.dx;
+        this.y += this.dy;
+        this.draw();
+    }
 }
 
 // make the chracter
@@ -67,27 +116,28 @@ function init() {
   foodArr = [];
 
   // intialize random properties of the cirle
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 50; i++) {
     var rad = (Math.random() * 5) + 1;
     var x = Math.random() * (canvas.width - rad * 2) + rad;
     var y = Math.random() * (canvas.height - rad * 2) + rad;
     var dx = (Math.random() - 0.5) * 5;
     var dy = (Math.random() - 0.5) * 5;
     var color = randomColor();
-    
+
     // save the food to the Array
     foodArr.push(new Circle(x, y, rad, color));
-  }
+    // foodArr[i].draw();
+    }
 }
 
 // animate the canvas by constantly reloadng the page
 let animate = () => {
   requestAnimationFrame(animate);
-  console.log("hi");
   c.clearRect(0, 0, canvas.width, canvas.height);
+  character.draw();
+  character.update();
   for (var i = 0; i < foodArr.length; i++) {
     foodArr[i].draw();
-    character.draw();
   } 
 }
 animate();
