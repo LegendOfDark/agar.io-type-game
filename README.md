@@ -1,4 +1,8 @@
 # agar.io-type-game
 
 Basic canvas project:
-Simulating the game, agar.io using canvas.
+A project inspired by my longtime favorite game, Agar.io
+
+Made using HTML Canvas, CSS & JS
+
+
