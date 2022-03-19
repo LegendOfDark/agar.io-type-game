@@ -6,7 +6,7 @@ A project inspired by my longtime favorite game, Agar.io
 Made using HTML Canvas, CSS & JS
 
 ## Bugs
-- It seems that victory is not recognized even when all food is eaten
+- It seems that victory is not recognized even when all food is eaten - working on that :)
 
 ## Link
 Check it out at the following link: https://legendofdark.github.io/agar.io-type-game/
